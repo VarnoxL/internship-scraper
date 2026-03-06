@@ -1,0 +1,33 @@
+[
+  {
+    "id": "ab355e76f9f5606e103d380e7ee2267f49d28dd05447f3bc248647fb197c696c",
+    "source": "demo-board",
+    "company": "Acme Corp",
+    "title": "Python Software Engineer Intern",
+    "location": "Remote - US",
+    "is_remote": true,
+    "url": "https://example.com/jobs/1",
+    "date_posted": null,
+    "scraped_at": "2026-03-05T22:22:56.152584",
+    "tags": [
+      "python",
+      "intern",
+      "software",
+      "remote"
+    ]
+  },
+  {
+    "id": "7b455d1dcfd42bb7d22224b134d1f699a40aee45ef37b43123bc75ba77e9d9f1",
+    "source": "demo-board",
+    "company": "Bright Media",
+    "title": "Marketing Intern",
+    "location": "New York, NY",
+    "is_remote": false,
+    "url": "https://example.com/jobs/2",
+    "date_posted": null,
+    "scraped_at": "2026-03-05T22:22:56.152584",
+    "tags": [
+      "intern"
+    ]
+  }
+]

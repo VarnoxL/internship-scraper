@@ -57,7 +57,7 @@ def parse_internships(html: str, source: str, base_url: str = "") -> List[Intern
         tags = _infer_tags_from_text(f"{title} {company} {location}")
 
         posting = InternshipPosting(
-            id="temp",
+            id="temp-id",
             source=source,
             company=company,
             title=title,
@@ -86,12 +86,24 @@ def filter_postings(
     filtered: List[InternshipPosting] = []
     for posting in postings:
         haystack = " ".join(
-            [posting.title, posting.company, posting.location, " ".join(posting.tags)]
+            [posting.title, posting.company,
+                posting.location, " ".join(posting.tags)]
         ).lower()
         if any(keyword in haystack for keyword in normalized_keywords):
             filtered.append(posting)
 
     return filtered
+
+
+def deduplicate_postings(postings: Iterable[InternshipPosting]) -> List[InternshipPosting]:
+    """Remove duplicate postings based on their computed unique ID."""
+    seen_ids = set()
+    unique_postings = []
+    for posting in postings:
+        if posting.id not in seen_ids:
+            seen_ids.add(posting.id)
+            unique_postings.append(posting)
+    return unique_postings
 
 
 def export_to_csv(postings: Iterable[InternshipPosting], path: str | Path) -> None:
@@ -186,9 +198,11 @@ def run_pipeline(
     html = fetch_html(url)
     postings = parse_internships(html, source=source, base_url=url)
     filtered = filter_postings(postings, keywords)
-    export_to_csv(filtered, csv_path)
-    export_to_json(filtered, json_path)
-    return filtered
+    unique = deduplicate_postings(filtered)
+
+    export_to_csv(unique, csv_path)
+    export_to_json(unique, json_path)
+    return unique
 
 
 def _demo_html() -> str:
@@ -217,13 +231,16 @@ def main() -> None:
     source = "demo-board"
     keywords = ["Python", "Intern"]
 
-    postings = parse_internships(_demo_html(), source=source, base_url="https://example.com")
+    postings = parse_internships(
+        _demo_html(), source=source, base_url="https://example.com")
     filtered = filter_postings(postings, keywords)
+    unique = deduplicate_postings(filtered)
 
-    export_to_csv(filtered, "output/internships.csv")
-    export_to_json(filtered, "output/internships.json")
+    export_to_csv(unique, "output/internships.csv")
+    export_to_json(unique, "output/internships.json")
 
-    print(f"Parsed {len(postings)} postings and kept {len(filtered)} after filtering.")
+    print(
+        f"Parsed {len(postings)} postings and kept {len(unique)} after filtering.")
 
 
 if __name__ == "__main__":

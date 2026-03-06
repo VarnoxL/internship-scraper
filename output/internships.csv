@@ -1,0 +1,3 @@
+id,source,company,title,location,is_remote,url,date_posted,scraped_at,tags
+ab355e76f9f5606e103d380e7ee2267f49d28dd05447f3bc248647fb197c696c,demo-board,Acme Corp,Python Software Engineer Intern,Remote - US,True,https://example.com/jobs/1,,2026-03-05T22:22:56.152584,"python,intern,software,remote"
+7b455d1dcfd42bb7d22224b134d1f699a40aee45ef37b43123bc75ba77e9d9f1,demo-board,Bright Media,Marketing Intern,"New York, NY",False,https://example.com/jobs/2,,2026-03-05T22:22:56.152584,intern
